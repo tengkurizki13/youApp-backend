@@ -3,20 +3,46 @@ const { comparePassword } = require("../helpers/bcryptjs");
 const { encodedJson } = require("../helpers/webToken");
 
 class UserController {
-  static async register(req, res, next) {
+  static async createProfile(req, res, next) {
     try {
-      const { username, email, password } = req.body;
-
-      console.log(username, email, password);
-      let createAuthor = await User.create({
-        username,
-        email,
-        password,
-      });
+      const { name = "", birthday = "", height = null,weight = null,interests = [] } = req.body;
+      let option = {
+        where: { email:req.user.email },
+      };
+      await User.update(
+        {
+          name,
+          birthday,
+          height,
+          weight,
+          interests,
+        },
+        option
+      );
       res.status(201).json([
         {
-          massage: "User has been created successfully",
-          data: createAuthor,
+          message: "Profile has been created",
+        },
+      ]);
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  }
+
+  static async getProfile(req, res, next) {
+    try {
+      let option = {
+          attributes: {
+            exclude: ["password"],
+          },
+      };
+      let user = await User.findByPk(req.user.id, option);
+
+      res.status(200).json([
+        {
+          message: "Profile has been found",
+          data: user,
         },
       ]);
     } catch (error) {
@@ -24,30 +50,29 @@ class UserController {
     }
   }
 
-  static async login(req, res, next) {
+  static async updateProfile(req, res, next) {
     try {
-      const { email, password,username } = req.body;
-      if (!email || !password || !username) throw { name: "Bad Request" };
-      let user = await User.findOne({
-        where: { email },
-      });
-      let isValidPassword = comparePassword(password, user.password);
-      if (!user || !isValidPassword) throw { name: "authentication" };
-      let payload = {
-        id: user.id,
+      const { name = null, birthday = null, height = null,weight = null,interests = null } = req.body;
+      let option = {
+        where: { email:req.user.email },
       };
-      payload = encodedJson(payload);
-      res.status(200).json([
+      await User.update(
         {
-          massage: "User has been logged in",
-          data : {
-            access_token: payload,
-            id: user.id,
-            email: user.email,
-          }
+          name,
+          birthday,
+          height,
+          weight,
+          interests,
+        },
+        option
+      );
+      res.status(201).json([
+        {
+          message: "Profile has been updated",
         },
       ]);
     } catch (error) {
+      console.log(error);
       next(error);
     }
   }

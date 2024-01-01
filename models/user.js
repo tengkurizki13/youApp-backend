@@ -19,17 +19,17 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       unique: {
-        msg: "email must be unique",
+        msg: "Email Must Be Unique",
       },
       validate: {
         notEmpty: {
-          msg: "email is required",
+          msg: "Email Is Required",
         },
         notNull: {
-          msg: "email is required",
+          msg: "Email Is Required",
         },
         isEmail: {
-          msg: "format email is wrong",
+          msg: "Format Email Is Wrong",
         },
       },
     },
@@ -39,22 +39,77 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {
-          msg: "password is required",
+          msg: "Password Is Required",
         },
         notEmpty: {
-          msg: "password is required",
+          msg: "Password Is Required",
         },
         min: {
           args: 5,
-          msg: "Minimum password length is 5 word",
+          msg: "Minimum Password Length Is 5 Word",
         },
       },
     },
-    name: DataTypes.STRING,
-    birthday: DataTypes.STRING,
-    height: DataTypes.NUMBER,
-    weight: DataTypes.NUMBER,
-    interests: DataTypes.JSON
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Name Is Required",
+        },
+        notEmpty: {
+          msg: "Name Is Required",
+        },
+      },
+    },
+    birthday: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Birthday Is Required",
+        },
+        notEmpty: {
+          msg: "Birthday Is Required",
+        },
+      },
+    },
+    height: {
+      type: DataTypes.NUMBER,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Height Is Required",
+        },
+        notEmpty: {
+          msg: "Height Is Required",
+        },
+      },
+    },
+    weight: {
+      type: DataTypes.NUMBER,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Weight Is Required",
+        },
+        notEmpty: {
+          msg: "Weight Is Required",
+        },
+      },
+    },
+    interests: {
+      type: DataTypes.JSON,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Interests Is Required",
+        },
+        notEmpty: {
+          msg: "Interests Is Required",
+        },
+      },
+    },
   }, {
     sequelize,
     modelName: 'User',
@@ -64,11 +119,11 @@ module.exports = (sequelize, DataTypes) => {
     user.password = hashPassword(user.password);
   });
 
-  // Menyembunyikan kolom password dari hasil query
-  User.prototype.toJSON = function () {
-    const values = { ...this.get() };
-    delete values.password;
-    return values;
-  };
+
+  User.afterCreate((user, option) => {
+    // user.password = hashPassword(user.password);
+    delete user.password
+    console.log(user.password,"after");
+  });
   return User;
 };
