@@ -107,6 +107,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     interests: {
       type: DataTypes.JSON,
+      defaultValue: [],
       allowNull: false,
       validate: {
         notNull: {

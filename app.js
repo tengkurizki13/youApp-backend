@@ -24,6 +24,9 @@ io.on("connection",(socket) => {
   })
 })
 
+// uncomment dibawah ini jika mau bikin testing 
+// module.exports = app;
+
 server.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
   });

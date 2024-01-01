@@ -25,7 +25,7 @@ class AuthController {
       let user = await User.findByPk(newUser.id, option);
       res.status(201).json([
         {
-          massage: "User has been created successfully",
+          message: "User has been created successfully",
           data: user,
         },
       ]);
@@ -49,7 +49,7 @@ class AuthController {
       payload = encodedJson(payload);
       res.status(200).json([
         {
-          massage: "User has been logged in",
+          message: "User has been logged in",
           data : {
             access_token: payload,
             id: user.id,

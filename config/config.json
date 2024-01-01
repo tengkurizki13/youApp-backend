@@ -8,10 +8,10 @@
   },
   "test": {
     "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "password": "12345",
+    "database": "chat-test-testing",
+    "host": "localhost",
+    "dialect": "mariadb"
   },
   "production": {
     "username": "root",
