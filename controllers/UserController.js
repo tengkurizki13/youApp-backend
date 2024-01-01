@@ -19,9 +19,18 @@ class UserController {
         },
         option
       );
+
+      let user = await User.findByPk(req.user.id, {
+        attributes: {
+          exclude: ["password"],
+        },
+       });
+
+
       res.status(201).json([
         {
           message: "Profile has been created",
+          data : user
         },
       ]);
     } catch (error) {
@@ -66,9 +75,16 @@ class UserController {
         },
         option
       );
+
+      let user = await User.findByPk(req.user.id, {
+        attributes: {
+          exclude: ["password"],
+        },
+       });
       res.status(201).json([
         {
           message: "Profile has been updated",
+          data : user
         },
       ]);
     } catch (error) {

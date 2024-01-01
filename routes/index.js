@@ -19,9 +19,7 @@ const errorHandler = (error, req, res, next) => {
     case "SequelizeValidationError":
     case "SequelizeUniqueConstraintError":
       status = 400;
-      message = error.errors.map((e) => {
-        return e.message;
-      });
+      message = error.errors[0].message
       break;
     case "Bad Request":
       status = 400;
