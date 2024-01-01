@@ -37,7 +37,7 @@ class AuthController {
   static async login(req, res, next) {
     try {
       const { email, password } = req.body;
-      if (!email || !password) throw { name: "Bad Request" };
+      if (!email || !password ) throw { name: "Bad Request" };
       let user = await User.findOne({
         where: { email },
       });
