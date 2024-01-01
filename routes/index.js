@@ -28,6 +28,7 @@ const errorHandler = (error, req, res, next) => {
       message = "email / password is required";
       break;
     case "authentication":
+      console.log("masuk codoe");
       status = 401;
       message = "you are not authentication";
       break;
